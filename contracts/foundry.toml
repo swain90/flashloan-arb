@@ -1,0 +1,32 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+solc = "0.8.24"
+optimizer = true
+optimizer_runs = 10000
+via_ir = true
+
+# Testing
+fuzz = { runs = 1000 }
+invariant = { runs = 256 }
+
+# Fork testing
+eth_rpc_url = "${ETH_RPC_URL}"
+
+[profile.default.fmt]
+line_length = 120
+tab_width = 4
+bracket_spacing = false
+
+[rpc_endpoints]
+mainnet = "${ETH_RPC_URL}"
+arbitrum = "${ARBITRUM_RPC_URL}"
+base = "${BASE_RPC_URL}"
+optimism = "${OPTIMISM_RPC_URL}"
+
+[etherscan]
+mainnet = { key = "${ETHERSCAN_API_KEY}" }
+arbitrum = { key = "${ARBISCAN_API_KEY}" }
+base = { key = "${BASESCAN_API_KEY}" }
+optimism = { key = "${OPTIMISTIC_ETHERSCAN_API_KEY}" }

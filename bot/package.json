@@ -1,0 +1,36 @@
+{
+  "name": "flashloan-arb-bot",
+  "version": "2.0.0",
+  "description": "Multi-chain flashloan arbitrage bot with MEV protection",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx watch src/index.ts",
+    "test": "vitest",
+    "lint": "eslint src --ext .ts"
+  },
+  "dependencies": {
+    "viem": "^2.20.0",
+    "@flashbots/ethers-provider-bundle": "^1.0.0",
+    "bullmq": "^5.0.0",
+    "pino": "^9.0.0",
+    "pino-pretty": "^11.0.0",
+    "dotenv": "^16.4.0",
+    "decimal.js": "^10.4.0",
+    "ioredis": "^5.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.4.0",
+    "tsx": "^4.7.0",
+    "vitest": "^1.0.0",
+    "eslint": "^8.57.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
