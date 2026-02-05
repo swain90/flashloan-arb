@@ -1,2 +1,5 @@
 bot/node_modules
 ui/node_modules
+contracts/out/
+contracts/broadcast/
+contracts/cache/

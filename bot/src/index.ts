@@ -31,6 +31,10 @@ const MAX_HISTORY = 100;
 const opportunityQueue: ArbitrageOpportunity[] = [];
 let isProcessing = false;
 
+// Cache balances to avoid RPC rate limits
+const BALANCE_CACHE_MS = Number(process.env.BALANCE_CACHE_MS) || 15000;
+const balanceCache = new Map<ChainId, { value: string; fetchedAt: number }>();
+
 // Configuration
 function loadConfig(): BotConfig {
   const privateKey = process.env.PRIVATE_KEY;
@@ -162,9 +166,23 @@ function startApiServer(port: number, monitor: PriceMonitor, executor: TradeExec
       if (url.pathname === '/api/status') {
         // Get balances
         const balances: Record<number, string> = {};
+        const now = Date.now();
         for (const chainId of state.currentChains) {
-          const balance = await executor.getBalance(chainId);
-          balances[chainId] = balance.toString();
+          const cached = balanceCache.get(chainId);
+          if (cached && now - cached.fetchedAt < BALANCE_CACHE_MS) {
+            balances[chainId] = cached.value;
+            continue;
+          }
+
+          try {
+            const balance = await executor.getBalance(chainId);
+            const value = balance.toString();
+            balanceCache.set(chainId, { value, fetchedAt: now });
+            balances[chainId] = value;
+          } catch (error) {
+            logger.warn({ chainId, err: error }, 'Failed to fetch balance');
+            balances[chainId] = cached?.value ?? '0';
+          }
         }
 
         res.writeHead(200);

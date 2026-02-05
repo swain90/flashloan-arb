@@ -3,7 +3,42 @@ import { DexType } from '../types/index.js';
 
 // ============ Common Tokens ============
 
-const TOKENS: Record<string, Record<string, TokenInfo>> = {
+type TokenMap = {
+  ethereum: {
+    WETH: TokenInfo;
+    USDC: TokenInfo;
+    USDT: TokenInfo;
+    DAI: TokenInfo;
+    WBTC: TokenInfo;
+  };
+  arbitrum: {
+    WETH: TokenInfo;
+    USDC: TokenInfo;
+    USDT: TokenInfo;
+    ARB: TokenInfo;
+    WBTC: TokenInfo;
+  };
+  base: {
+    WETH: TokenInfo;
+    USDC: TokenInfo;
+    cbETH: TokenInfo;
+    AERO: TokenInfo;
+  };
+  optimism: {
+    WETH: TokenInfo;
+    USDC: TokenInfo;
+    USDT: TokenInfo;
+    OP: TokenInfo;
+    VELO: TokenInfo;
+  };
+  arbitrumSepolia: {
+    WETH: TokenInfo;
+    USDC: TokenInfo;
+    LINK: TokenInfo;
+  };
+};
+
+const TOKENS: TokenMap = {
   ethereum: {
     WETH: { address: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', symbol: 'WETH', decimals: 18, name: 'Wrapped Ether' },
     USDC: { address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', symbol: 'USDC', decimals: 6, name: 'USD Coin' },
@@ -30,6 +65,11 @@ const TOKENS: Record<string, Record<string, TokenInfo>> = {
     USDT: { address: '0x94b008aA00579c1307B0EF2c499aD98a8ce58e58', symbol: 'USDT', decimals: 6, name: 'Tether USD' },
     OP: { address: '0x4200000000000000000000000000000000000042', symbol: 'OP', decimals: 18, name: 'Optimism' },
     VELO: { address: '0x9560e827aF36c94D2Ac33a39bCE1Fe78631088Db', symbol: 'VELO', decimals: 18, name: 'Velodrome' },
+  },
+  arbitrumSepolia: {
+    WETH: { address: '0x980B62Da83eFf3D4576C647993b0c1D7faf17c73', symbol: 'WETH', decimals: 18, name: 'Wrapped Ether' },
+    USDC: { address: '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d', symbol: 'USDC', decimals: 6, name: 'USD Coin' },
+    LINK: { address: '0xb1D4538B4571d411F07960EF2838Ce337FE1E80E', symbol: 'LINK', decimals: 18, name: 'Chainlink' },
   },
 };
 
@@ -134,6 +174,17 @@ const optimismDexes: DexConfig[] = [
   },
 ];
 
+const arbitrumSepoliaDexes: DexConfig[] = [
+  {
+    name: 'Uniswap V3',
+    type: DexType.UniswapV3,
+    router: '0x101F443B4d1b059569D643917553c771E1b9663E', // SwapRouter02
+    factory: '0x248AB79Bbb9bC29bB72f7Cd42F17e054Fc40188e',
+    quoter: '0x2779a0CC1c3e0E44D2542EC3e79e3864Ae93Ef0B',
+    pools: [],
+  },
+];
+
 // ============ Chain Configurations ============
 
 export const CHAIN_CONFIGS: Record<number, ChainConfig> = {
@@ -189,6 +240,19 @@ export const CHAIN_CONFIGS: Record<number, ChainConfig> = {
       balancerVault: '0xBA12222222228d8Ba445958a75a0704d566BF2C8',
     },
     dexes: optimismDexes,
+  },
+  421614: {
+    id: 421614,
+    name: 'Arbitrum Sepolia',
+    rpcUrl: process.env.ARBITRUM_SEPOLIA_RPC_URL || process.env.ARBITRUM_RPC_URL || 'https://sepolia-rollup.arbitrum.io/rpc',
+    wsUrl: process.env.ARBITRUM_SEPOLIA_WS_URL || process.env.ARBITRUM_WS_URL || '',
+    blockTime: 250,
+    nativeToken: TOKENS.arbitrumSepolia.WETH,
+    contracts: {
+      arbitrage: '0x0000000000000000000000000000000000000000', // Deploy and update
+      balancerVault: '0x0000000000000000000000000000000000000000',
+    },
+    dexes: arbitrumSepoliaDexes,
   },
 };
 

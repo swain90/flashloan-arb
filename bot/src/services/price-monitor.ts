@@ -8,7 +8,7 @@ import {
   type WatchContractEventReturnType,
   getContract,
 } from 'viem';
-import { mainnet, arbitrum, base, optimism } from 'viem/chains';
+import { mainnet, arbitrum, base, optimism, arbitrumSepolia } from 'viem/chains';
 import type { ChainConfig, ChainId, PoolReserves, Edge, DexConfig } from '../types/index.js';
 import { DexType } from '../types/index.js';
 import { ArbitrageDetector } from './arbitrage-detector.js';
@@ -49,6 +49,7 @@ const chainMap = {
   42161: arbitrum,
   8453: base,
   10: optimism,
+  421614: arbitrumSepolia,
 } as const;
 
 interface PoolSubscription {
@@ -162,6 +163,11 @@ export class PriceMonitor {
         '0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85', // USDC
         '0x94b008aA00579c1307B0EF2c499aD98a8ce58e58', // USDT
         '0x4200000000000000000000000000000000000042', // OP
+      ],
+      421614: [
+        '0x980B62Da83eFf3D4576C647993b0c1D7faf17c73', // WETH
+        '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d', // USDC
+        '0xb1D4538B4571d411F07960EF2838Ce337FE1E80E', // LINK
       ],
     };
 

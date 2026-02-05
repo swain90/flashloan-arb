@@ -2,7 +2,7 @@ import type { Address, Hash, Hex } from 'viem';
 
 // ============ Chain Configuration ============
 
-export type ChainId = 1 | 42161 | 8453 | 10;
+export type ChainId = 1 | 42161 | 8453 | 10 | 421614;
 
 export interface ChainConfig {
   id: ChainId;
